@@ -51,8 +51,8 @@ async function init() {
       module.initialize();
     }
   });
-};
+}
 
 module.exports = {
-  init
-}
+  init,
+};
