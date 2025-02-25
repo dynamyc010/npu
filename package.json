@@ -1,6 +1,6 @@
 {
   "name": "npu",
-  "version": "2.4.1",
+  "version": "3.0.0",
   "description": "Felturbózza a Neptun-odat",
   "main": "npu.user.js",
   "scripts": {
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/solymosi/npu.git"
+    "url": "git+https://github.com/dynamyc010/npu.git"
   },
-  "author": "Mate Solymosi",
+  "author": "Balint Sebestyen, Mate Solymosi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/solymosi/npu/issues"
+    "url": "https://github.com/dynamyc010/npu/issues"
   },
-  "homepage": "https://github.com/solymosi/npu#readme",
+  "homepage": "https://github.com/dynamyc010/npu#readme",
   "devDependencies": {
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^8.10.0",
