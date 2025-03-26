@@ -17,7 +17,6 @@ function init() {
   console.log("started loading...");
 
   const stage1 = setInterval(() => {
-    console.log("loading not shown");
     if (isLoadingShown()) {
       clearInterval(stage1);
       const stage2 = setInterval(() => {
@@ -34,6 +33,8 @@ function init() {
 }
 
 async function continueInit() {
+  await storage.initialize();
+
   await onPageChange();
 
   const observer = new MutationObserver(() => onPageChange());
@@ -49,8 +50,6 @@ async function onPageChange() {
   if (url.toString() !== currentUrl.toString()) {
     console.log("switching to", url.toString());
     currentUrl = url;
-    //console.log(isLoginPage())
-
     changeActiveModule();
   }
   return;
@@ -71,8 +70,6 @@ async function changeActiveModule() {
   });
 
   loadedModules = [];
-
-  await storage.initialize();
 
   modules.forEach(m => {
     console.log("module", m.identifier, m.shouldActivate());

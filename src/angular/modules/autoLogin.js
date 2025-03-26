@@ -21,7 +21,8 @@ function simulateTyping(selector, value) {
   const e = $(selector);
   if (e.length) {
     e.focus(); // Focus on the field
-    e.val(value).trigger($.Event("input", { bubbles: true })); // Set value and trigger event
+    e.val(value); // Set value and trigger event
+    document.querySelector(selector).dispatchEvent(new Event("input", { bubbles: true }));
     e.trigger($.Event("keyup", { key: "a" })); // Simulate keypress
     e.blur(); // Trigger validation
   }
@@ -31,7 +32,6 @@ let isAutologin = false;
 
 function initUserSelect() {
   const users = getLoginUsers();
-  console.log("users:", users);
 
   // TODO: Make it pretty (copy lang dropdown?)
   // const selectButton = $('<button id="npu-autologin" class="mat-mdc-menu-trigger menu-trigger language-dropdown--has-globe-icon no-box-shadow flat lightgrey small-padding" type="button" aria-haspopup="menu" aria-expanded="false">').hide();
@@ -118,16 +118,11 @@ function initUserSelect() {
       "input[type='password']",
       atob(storage.get("users", utils.getDomain(), users[$(this).get(0).selectedIndex], "password"))
     );
-
-    document.querySelector("input[type='password']").dispatchEvent(new Event("input", { bubbles: true }));
-    document.querySelector("input#userName").dispatchEvent(new Event("input", { bubbles: true }));
   });
-
-  console.log(utils.getEventHandlers("#login-button", "click"));
 
   $("#login-button")
     .attr("type", "")
-    .bind("click", function () {
+    .bind("click", async function () {
       if (isAutologin) return;
 
       if ($("#user_sel").val() === "__OTHER__") {
@@ -150,7 +145,6 @@ function initUserSelect() {
               btoa($("input[type='password']").val())
             );
           }
-          submitLogin();
           return;
         } else {
           $("#user_sel").val(foundUser);
@@ -181,8 +175,6 @@ function initUserSelect() {
           );
         }
       }
-
-      return;
     });
 
   showSelect();
@@ -240,7 +232,6 @@ function hideSelect() {
 }
 
 function abortLogin() {
-  console.log("aborting");
   window.clearInterval(loginTimer);
   $("#login-button .neptun-button__body .neptun-button__label").text(loginButtonText);
   $("#abort-button").remove();
@@ -259,7 +250,6 @@ module.exports = {
   identifier: "angular.autologin",
   shouldActivate: () => utils.isLoginPage(),
   initialize: () => {
-    console.log(utils.getDomain());
     initUserSelect();
     initAutoLogin();
   },
