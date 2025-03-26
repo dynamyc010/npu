@@ -8,7 +8,8 @@
     "build": "webpack-cli",
     "verify": "run-s verify:*",
     "verify:eslint": "eslint .",
-    "verify:prettier": "prettier -c src/**/*.js"
+    "verify:prettier": "prettier -c src/**/*.js",
+    "prettier": "prettier ./src --write"
   },
   "repository": {
     "type": "git",
