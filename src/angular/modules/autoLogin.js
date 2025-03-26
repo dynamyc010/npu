@@ -122,7 +122,7 @@ function initUserSelect() {
 
   $("#login-button")
     .attr("type", "")
-    .bind("click", async function () {
+    .bind("click", function () {
       if (isAutologin) return;
 
       if ($("#user_sel").val() === "__OTHER__") {
