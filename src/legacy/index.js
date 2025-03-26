@@ -1,5 +1,5 @@
 const utils = require("./utils");
-const storage = require("./storage");
+const storage = require("../shared/storage");
 
 const modules = [
   // Login page

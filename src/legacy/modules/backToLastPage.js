@@ -1,6 +1,6 @@
 const $ = window.jQuery;
 const utils = require("../utils");
-const storage = require("../storage");
+const storage = require("../../shared/storage");
 
 // Add a checkbox under the login button for enabling auto-redirect to the last visited page
 function initLastPageCheckbox() {

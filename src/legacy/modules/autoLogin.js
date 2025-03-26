@@ -1,6 +1,6 @@
 const $ = window.jQuery;
 const utils = require("../utils");
-const storage = require("../storage");
+const storage = require("../../shared/storage");
 
 // Returns users with stored credentials
 function getLoginUsers() {

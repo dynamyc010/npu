@@ -1,6 +1,6 @@
 const $ = window.jQuery;
 const utils = require("../utils");
-const storage = require("../storage");
+const storage = require("../../shared/storage");
 
 // Replace term drop-down list with buttons
 function fixTermSelect() {
