@@ -31,7 +31,7 @@ A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, 
 
 ## Legújabb verzió
 
-* Legfrissebb verzió: **3.0.0**
+* Legfrissebb verzió: **v3.0.1** (angular alpha)
 * Kiadás dátuma: **2025. március 26.**
 
 Ha tudod, mit csinálsz, [kattints ide a telepítéshez](https://github.com/dynamyc010/npu/releases/latest/download/npu.user.js).<br>
@@ -130,10 +130,11 @@ Eleged van abból, hogy minden egyes alkalommal be kell állítanod, hogy 500 el
 ## Újdonságok
 
 #### 2025. március 26.
-*  Angular
+*   #### Angular
     * **Fejlődés:** A Neptun PowerUp! már az új felületen is működik. Ezentúl a változtatások két részre lesznek osztva, attól függően hogy a változtatás melyik felületet érinti.
-* Legacy
-    * **Fejlődés:** A Legacy kódot átmozgattuk, de működése nem változott.
+    * **Javítva:** Felhasználó hozzáadása mostmár lehetséges.
+* #### Legacy
+    * **Fejlődés:** A Legacy kód átmozgatva, de működése nem változott. (Remélhetőleg...)
 
 #### 2024. augusztus 23.
 
