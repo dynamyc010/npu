@@ -1,7 +1,7 @@
 Neptun PowerUp!
 ===============
 
-Ez a **Neptun PowerUp!** hivatalos oldala.
+Ez a **Neptun PowerUp!** nem túl hivatalos oldala.
 
 A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, kidobás elleni védelem, automatikus belépés, könnyebben kezelhető felület, tárolható belépési adatok, és még sok más. 25 egyetem és főiskola **több mint 15 ezer** diákjának életét könnyíti meg már 2011 óta.
 
@@ -19,13 +19,14 @@ A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, 
 > [!WARNING]
 > Ez a fork egy work-in-progress, így nem fog minden tökéletesen működni.
 > Egyenlőre az implementált modulok a következőek az új Neptun felületén:
+> 
 > `autoLogin`
 >
 > Az egyetlen tesztelt felület egyenlőre az [Óbudai Egyetem](https://neptun.uni-obuda.hu/ujhallgato/) új Neptun felülete.
 > Testers welcome!
 
 > [!TIP]
-> A legacy kód tovább él, és a régi Neptun felületén azt töltjük be, úgyhogy az eredeti Neptun PowerUp!-ot nyugodtan lecserélheted.
+> A legacy kód tovább él, és a régi Neptun felületén azt töltjük be, úgyhogy az eredeti Neptun PowerUp!-ot nyugodtan lecserélheted, ha mindkét felületet használod.
  
 
 ## Legújabb verzió
