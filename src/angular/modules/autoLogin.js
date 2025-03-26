@@ -27,21 +27,11 @@ function simulateTyping(selector, value) {
   }
 }
 
-/* 
-<mat-form-field _ngcontent-muy-c336="" floatlabel="auto" class="mat-mdc-form-field login-right__user-name ng-tns-c36-3 mat-mdc-form-field-type-mat-input mat-mdc-form-field-has-icon-prefix mat-form-field-appearance-fill mat-form-field-hide-placeholder mat-primary ng-untouched ng-pristine ng-star-inserted ng-invalid"><!----><div class="mat-mdc-text-field-wrapper mdc-text-field ng-tns-c36-3 mdc-text-field--filled"><div class="mat-mdc-form-field-focus-overlay ng-tns-c36-3 ng-star-inserted"></div><!----><div class="mat-mdc-form-field-flex ng-tns-c36-3"><!----><div class="mat-mdc-form-field-icon-prefix ng-tns-c36-3 ng-star-inserted"><i _ngcontent-muy-c336="" matprefix="" class="icon-user ng-tns-c36-3"></i></div><!----><!----><div class="mat-mdc-form-field-infix ng-tns-c36-3"><label matformfieldfloatinglabel="" class="mdc-floating-label mat-mdc-floating-label ng-tns-c36-3 ng-star-inserted" id="mat-mdc-form-field-label-0" for="userName" aria-owns="userName"><mat-label _ngcontent-muy-c336="" class="ng-tns-c36-3">Azonosító</mat-label><span aria-hidden="true" class="mat-mdc-form-field-required-marker mdc-floating-label--required ng-tns-c36-3 ng-star-inserted"></span><!----></label><!----><!----><!----><input _ngcontent-muy-c336="" matinput="" placeholder="ABC123" type="text" autocomplete="off" name="userName" id="userName" class="mat-mdc-input-element ng-tns-c36-3 ng-untouched ng-pristine mat-mdc-form-field-input-control mdc-text-field__input cdk-text-field-autofill-monitored ng-invalid" required="" aria-required="true"></div><!----><!----></div><div matformfieldlineripple="" class="mdc-line-ripple ng-tns-c36-3 mdc-line-ripple--deactivating ng-star-inserted"></div><!----></div><div class="mat-mdc-form-field-subscript-wrapper mat-mdc-form-field-bottom-align ng-tns-c36-3"><!----><div class="mat-mdc-form-field-hint-wrapper ng-tns-c36-3 ng-trigger ng-trigger-transitionMessages ng-star-inserted" style="opacity: 1; transform: translateY(0%);"><!----><div class="mat-mdc-form-field-hint-spacer ng-tns-c36-3"></div></div><!----></div><button id="npu-autologin" class="mat-mdc-menu-trigger menu-trigger language-dropdown--has-globe-icon no-box-shadow flat lightgrey small-padding" type="button" aria-haspopup="menu" aria-expanded="false" style=""></button></mat-form-field>
-*/
-
-/*
-<neptun-language-dropdown _ngcontent-hda-c336="" _nghost-hda-c174="" class="neptun-language-dropdown"><button _ngcontent-hda-c174="" id="19915f11-1b97-46b8-9378-a48706cfebe3" neptun-button="" color="lightgrey" accent="flat" class="mat-mdc-menu-trigger menu-trigger language-dropdown--has-globe-icon no-box-shadow flat lightgrey small-padding" _nghost-hda-c69="" type="button" aria-haspopup="menu" aria-expanded="false" style="width:370px"><span _ngcontent-hda-c69="" class="neptun-button__body"><!----><span _ngcontent-hda-c69="" class="neptun-button__label"><i _ngcontent-hda-c174="" class="globe-icon icon-globe"></i><span _ngcontent-hda-c174="" class="text-uppercase">hu</span><i _ngcontent-hda-c174="" class="icon-open-indicator icon-chevron-bottom"></i></span><!----></span></button><!----><mat-menu _ngcontent-hda-c174="" xposition="before" class="ng-tns-c102-2 ng-star-inserted"><!----></mat-menu></neptun-language-dropdown>
-*/
-
 let isAutologin = false;
 
 function initUserSelect() {
   const users = getLoginUsers();
   console.log("users:", users);
-
-  // $(".login-right__username .mdc-text-field");
 
   // TODO: Make it pretty (copy lang dropdown?)
   // const selectButton = $('<button id="npu-autologin" class="mat-mdc-menu-trigger menu-trigger language-dropdown--has-globe-icon no-box-shadow flat lightgrey small-padding" type="button" aria-haspopup="menu" aria-expanded="false">').hide();
@@ -123,20 +113,11 @@ function initUserSelect() {
       return false;
     }
 
-    // $(".login-right__user-name").trigger("click");
-
-    // $("mat-form-field.password-input div.mdc-text-field").trigger("click");
-
     simulateTyping('input#userName', users[$(this).get(0).selectedIndex]);
     simulateTyping("input[type='password']", atob(storage.get("users", utils.getDomain(), users[$(this).get(0).selectedIndex], "password")));
 
     document.querySelector("input[type='password']").dispatchEvent(new Event('input', {bubbles: true}))
     document.querySelector("input#userName").dispatchEvent(new Event('input', {bubbles: true}))
-
-    // $("input#userName").val(users[$(this).get(0).selectedIndex]).attr('aria-invalid', 'false').trigger("input").trigger("click").trigger("blur");
-    // $("neptun-form-password input").val(
-    //   atob(storage.get("users", utils.getDomain(), users[$(this).get(0).selectedIndex], "password"))
-    // ).trigger("input").trigger("click").trigger("blur").trigger($.Event('keyup', { keyCode: 8 }));
   });
 
   console.log(utils.getEventHandlers("#login-button", "click"))
@@ -144,10 +125,6 @@ function initUserSelect() {
   $("#login-button")
     .attr("type", "")
     .bind("click", function (e) {
-      //buttonEvent = e;
-      // console.log(typeof(e.originalEvent), e.originalEvent);
-      // e.preventDefault();
-
       if(isAutologin) return;
 
       if ($("#user_sel").val() === "__OTHER__") {
@@ -196,8 +173,6 @@ function initUserSelect() {
         }
       }
 
-      // submitLogin();
-      // dispatchEvent(e.originalEvent);
       return;
     });
 
@@ -245,25 +220,14 @@ function initAutoLogin() {
   }, 1000);
 }
 
-// function createFakeLoginButton(){
-//   const login_button = $("#login-button").clone(false).attr('id', 'login-button-2');
-//   $("#login-button").prepend(login_button);
-
-//   // Hide real button
-//   $("#login-button").hide().attr('id', 'base-login-button');
-//   $('#login-button-2').attr('id', 'login-button');
-// }
-
 function showSelect() {
   $(".login-right__user-name .mdc-text-field").hide();
   $("#user_sel").show();
-  // utils.runEval(' Page_Validators[0].controltovalidate = "user_sel" ');
 }
 
 function hideSelect() {
   $(".login-right__user-name .mdc-text-field").show().focus();
   $("#user_sel").hide();
-  // utils.runEval(' Page_Validators[0].controltovalidate = "user" ');
 }
 
 function abortLogin() {
@@ -280,15 +244,12 @@ function clearLogin() {
 
 function submitLogin() {
   $("#login-button").click();
-  // $('input#userName').trigger($.Event('keyup', { keyCode: 13 }));
-
 }
 
 module.exports = {
   identifier: "angular.autologin",
   shouldActivate: () => utils.isLoginPage(),
   initialize: () => {
-    // createFakeLoginButton();
     console.log(utils.getDomain());
     initUserSelect();
     initAutoLogin();
