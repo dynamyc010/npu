@@ -128,7 +128,7 @@ function initUserSelect() {
     // $("mat-form-field.password-input div.mdc-text-field").trigger("click");
 
     simulateTyping('input#userName', users[$(this).get(0).selectedIndex]);
-    simulateTyping('neptun-form-password input', atob(storage.get("users", utils.getDomain(), users[$(this).get(0).selectedIndex], "password")));
+    simulateTyping("input[type='password']", atob(storage.get("users", utils.getDomain(), users[$(this).get(0).selectedIndex], "password")));
 
     document.querySelector("input[type='password']").dispatchEvent(new Event('input', {bubbles: true}))
     document.querySelector("input#userName").dispatchEvent(new Event('input', {bubbles: true}))
@@ -151,7 +151,7 @@ function initUserSelect() {
       if(isAutologin) return;
 
       if ($("#user_sel").val() === "__OTHER__") {
-        if ($("input#userName").val().trim() === "" || $("input#mat-input-1").val().trim() === "") {
+        if ($("input#userName").val().trim() === "" || $("input[type='password']").val().trim() === "") {
           return;
         }
 
@@ -162,7 +162,7 @@ function initUserSelect() {
               "Szeretnéd menteni a beírt adatokat, hogy később egy kattintással be tudj lépni erről a számítógépről?"
             )
           ) {
-            storage.set("users", utils.getDomain(), $("input#userName").val().toUpperCase(), "password", btoa($("input#mat-input-1").val()));
+            storage.set("users", utils.getDomain(), $("input#userName").val().toUpperCase(), "password", btoa($("input[type='password']").val()));
           }
           submitLogin();
           return;
@@ -176,7 +176,7 @@ function initUserSelect() {
       }
 
       if (
-        $("input#mat-input-1").val() !==
+        $("input[type='password']").val() !==
         atob(storage.get("users", utils.getDomain(), users[$("#user_sel").get(0).selectedIndex], "password"))
       ) {
         if (
@@ -191,7 +191,7 @@ function initUserSelect() {
             utils.getDomain(),
             users[$("#user_sel").get(0).selectedIndex],
             "password",
-            btoa($("input#mat-input-1").val())
+            btoa($("input[type='password']").val())
           );
         }
       }
@@ -275,7 +275,7 @@ function abortLogin() {
 
 function clearLogin() {
   $("input#userName").val("").trigger("input");
-  $("input#mat-input-1").val("").trigger("input");
+  $("input[type='password']").val("").trigger("input");
 }
 
 function submitLogin() {
