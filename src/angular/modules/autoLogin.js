@@ -255,7 +255,7 @@ function initAutoLogin() {
 // }
 
 function showSelect() {
-  // $(".login-right__user-name .mdc-text-field").hide();
+  $(".login-right__user-name .mdc-text-field").hide();
   $("#user_sel").show();
   // utils.runEval(' Page_Validators[0].controltovalidate = "user_sel" ');
 }
