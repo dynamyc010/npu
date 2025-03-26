@@ -5,7 +5,7 @@ Ez a **Neptun PowerUp!** hivatalos oldala.
 
 A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, kidobás elleni védelem, automatikus belépés, könnyebben kezelhető felület, tárolható belépési adatok, és még sok más. 25 egyetem és főiskola **több mint 15 ezer** diákjának életét könnyíti meg már 2011 óta.
 
-> [!CAUTION]
+<!-- > [!CAUTION]
 > **A Neptun PowerUp! a jelen formájában nem fog tovább működni 😢**
 >
 > A Neptun nemrég bevezetett egy **új felhasználói felületet**, amely teljesen máshogy működik, mint a régi. Néhány egyetem már most bevezette az új felületet, és arra lehet számítani, hogy záros határidőn belül mindenhol csak az új felület lesz elérhető.
@@ -14,14 +14,26 @@ A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, 
 >
 > A Neptun PowerUp! legelső verzióját 2011-ben tettem közzé, nem sokkal azután, hogy felvettek a Corvinus-ra. Három évvel később, 2014-ben lediplomáztam és kiköltöztem külföldre, így az elmúlt 10 évben nem volt aktív jogviszonyom magyar egyetemen. Ennek ellenére továbbra is rendszeresen időt szántam arra, hogy még ha a Neptun PowerUp! nem is kap új funkciókat, de legalább a meglévők működőképesek és hibamentesek maradjanak. Ehhez többen is jelentősen hozzájárultak pull request-ekkel és community support-tal, akiknek ezúton is köszönöm a segítségét.
 >
-> A jelenlegi helyzetben viszont a projekt fennmaradását csak abban az esetben látom lehetségesnek, ha valaki átveszi tőlem a fejlesztést, és újraírja a szkriptet, hogy az új Neptun felületen is működjön. Ennek hiányában **a projekt 2024 végén archiválásra fog kerülni**.
+> A jelenlegi helyzetben viszont a projekt fennmaradását csak abban az esetben látom lehetségesnek, ha valaki átveszi tőlem a fejlesztést, és újraírja a szkriptet, hogy az új Neptun felületen is működjön. Ennek hiányában **a projekt 2024 végén archiválásra fog kerülni**. -->
+
+> [!WARNING]
+> Ez a fork egy work-in-progress, így nem fog minden tökéletesen működni.
+> Egyenlőre az implementált modulok a következőek az új Neptun felületén:
+> `autoLogin`
+>
+> Az egyetlen tesztelt felület egyenlőre az [Óbudai Egyetem](https://neptun.uni-obuda.hu/ujhallgato/) új Neptun felülete.
+> Testers welcome!
+
+> [!TIP]
+> A legacy kód tovább él, és a régi Neptun felületén azt töltjük be, úgyhogy az eredeti Neptun PowerUp!-ot nyugodtan lecserélheted.
+ 
 
 ## Legújabb verzió
 
-* Legfrissebb verzió: **2.4.1**
-* Kiadás dátuma: **2024. augusztus 23.**
+* Legfrissebb verzió: **3.0.0**
+* Kiadás dátuma: **2025. március 26.**
 
-Ha tudod, mit csinálsz, [kattints ide a telepítéshez](https://github.com/solymosi/npu/releases/latest/download/npu.user.js).<br>
+Ha tudod, mit csinálsz, [kattints ide a telepítéshez](https://github.com/dynamyc010/npu/releases/latest/download/npu.user.js).<br>
 Egyébként olvasd el lent a telepítési útmutatót.
 
 ## Telepítés
@@ -41,6 +53,10 @@ A telepítéssel elfogadod a [használat feltételeit](#licensz) és az [adatvé
 1. Lépj be a Neptun-ra, és használd egészséggel.
 
 ## Mit tud?
+
+> [!WARNING]
+> Ezen lista jelenleg a RÉGI Neptun felületére vonatkozik, később frissítve lesz.
+> A jelenleg implementált modulokat feljebb találod.
 
 Az alábbi funkciókkal rendelkezik a program:
 
@@ -111,6 +127,12 @@ A Neptun fejléce alapesetben a képernyő harmadát elfoglalja, ami kis képern
 Eleged van abból, hogy minden egyes alkalommal be kell állítanod, hogy 500 elemet akarsz látni egy oldalon a 20 helyett? A Neptun PowerUp! automatikusan 500 elemet jelenít meg minden listában, és eltünteti az oldalméret-választó menüt.
 
 ## Újdonságok
+
+#### 2025. március 26.
+*  Angular
+    * **Fejlődés:** A Neptun PowerUp! már az új felületen is működik. Ezentúl a változtatások két részre lesznek osztva, attól függően hogy a változtatás melyik felületet érinti.
+* Legacy
+    * **Fejlődés:** A Legacy kódot átmozgattuk, de működése nem változott.
 
 #### 2024. augusztus 23.
 

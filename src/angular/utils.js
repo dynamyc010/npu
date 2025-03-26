@@ -179,18 +179,18 @@ function isFailingGrade(str) {
 }
 
 // https://gist.github.com/jherax/968ad4ff8eaa9ceb9159
-function getEventHandlers(element, eventns) {
-  const i = (eventns || '').indexOf('.'),
-    event = i > -1 ? eventns.substr(0, i) : eventns,
-    namespace = i > -1 ? eventns.substr(i + 1) : void(0),
-    handlers = Object.create(null);
-  element = $(element);
+function getEventHandlers(e, eventns) {
+  const i = (eventns || "").indexOf(".");
+  const event = i > -1 ? eventns.substr(0, i) : eventns;
+  const namespace = i > -1 ? eventns.substr(i + 1) : void 0;
+  const handlers = Object.create(null);
+  const element = $(e);
   if (!element.length) return handlers;
   // gets the events associated to a DOM element
   const listeners = $._data(element.get(0), "events") || handlers;
   const events = event ? [event] : Object.keys(listeners);
   if (!eventns) return listeners; // Object with all event types
-  events.forEach((type) => {
+  events.forEach(type => {
     // gets event-handlers by event-type or namespace
     (listeners[type] || []).forEach(getHandlers, type);
   });
@@ -199,9 +199,11 @@ function getEventHandlers(element, eventns) {
     const type = this.toString();
     const eNamespace = e.namespace || (e.data && e.data.handler);
     // gets event-handlers by event-type or namespace
-    if ((event === type && !namespace) ||
-        (eNamespace === namespace && !event) ||
-        (eNamespace === namespace && event === type)) {
+    if (
+      (event === type && !namespace) ||
+      (eNamespace === namespace && !event) ||
+      (eNamespace === namespace && event === type)
+    ) {
       handlers[type] = handlers[type] || [];
       handlers[type].push(e);
     }
@@ -220,5 +222,5 @@ module.exports = {
   injectCss,
   isPassingGrade,
   isFailingGrade,
-  getEventHandlers
+  getEventHandlers,
 };
