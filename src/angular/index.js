@@ -1,97 +1,89 @@
 const $ = window.jQuery;
-const { getCurrentPage, isNeptunPage } = require("./utils")
-const storage = require("../shared/storage")
-let isPageLoaded = false;
+const { getCurrentPage, isNeptunPage } = require("./utils");
+const storage = require("../shared/storage");
 
-let modules = [
-  require("./modules/autoLogin")
-];
+const modules = [require("./modules/autoLogin")];
 
 let loadedModules = [];
 
-function init(){
-  function isLoadingShown(){ 
-    return ($("neptun-loading-template").length >= 0)
+function init() {
+  function isLoadingShown() {
+    return $("neptun-loading-template").length >= 0;
   }
-  function isLoadingGone(){
-    return ($("neptun-loading-template").length <= 0)
+  function isLoadingGone() {
+    return $("neptun-loading-template").length <= 0;
   }
 
-  console.log('started loading...')
+  console.log("started loading...");
 
-  let stage1 = setInterval(() => {
-    console.log("loading not shown")
-    if(isLoadingShown()){
+  const stage1 = setInterval(() => {
+    console.log("loading not shown");
+    if (isLoadingShown()) {
       clearInterval(stage1);
-      let stage2 = setInterval(() => {
-        if(isLoadingGone()){
-          console.log('loading finished');
+      const stage2 = setInterval(() => {
+        if (isLoadingGone()) {
+          console.log("loading finished");
           clearInterval(stage2);
-          isPageLoaded = true;
           setTimeout(() => {
             continueInit();
-          },300)
+          }, 300);
         }
-      }, 300)
+      }, 300);
     }
-  }, 300)
+  }, 300);
 }
 
-async function continueInit(){
+async function continueInit() {
   await onPageChange();
 
   //window.onhashchange += onHashChange();
-  const observer = new MutationObserver(async m => {
-    //console.log("DOM changed: ", m);
-    await onPageChange();
-  })
+  const observer = new MutationObserver(() => onPageChange());
 
-  observer.observe(document.body, {childList: true, subtree: true});
+  observer.observe(document.body, { childList: true, subtree: true });
 }
 
-let currentUrl = '';
+let currentUrl = "";
 
-async function onPageChange(){
-  url = getCurrentPage();
+async function onPageChange() {
+  const url = getCurrentPage();
 
-  if(url.toString() != currentUrl.toString()){
-    console.log('switching to', url.toString());
+  if (url.toString() !== currentUrl.toString()) {
+    console.log("switching to", url.toString());
     currentUrl = url;
     //console.log(isLoginPage())
 
-    changeActiveModule()
+    changeActiveModule();
   }
   return;
 }
 
 async function changeActiveModule() {
-
   // Loop through loaded modules, and destroy the ones we don't need.
   // modules.filter((m) => loadedModules.indexOf(m.identifier) !== -1).forEach(m => {
-  loadedModules.forEach((m) => {
+  loadedModules.forEach(m => {
     // if(!m.shouldActivate()){
     //   m.destroy();
     // }
 
     // Let's just destroy and reload everything as needed for now.
-    console.log("destroying", m.identifier)
+    console.log("destroying", m.identifier);
     m.destroy();
     // loadedModules.splice(loadedModules.indexOf(m))
-  })
+  });
 
   loadedModules = [];
 
   await storage.initialize();
 
   modules.forEach(m => {
-    console.log("module", m.identifier, m.shouldActivate())
+    console.log("module", m.identifier, m.shouldActivate());
     if (m.shouldActivate() && (isNeptunPage() || m.runOutsideNeptun)) {
-      console.log("loading", m.identifier)
+      console.log("loading", m.identifier);
       m.initialize();
       loadedModules[loadedModules.length] = m;
     }
   });
-  console.log('loaded modules:', loadedModules)
+  console.log("loaded modules:", loadedModules);
 }
 
 module.exports = {

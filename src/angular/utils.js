@@ -1,4 +1,4 @@
-const $ = window.jQuery
+const $ = window.jQuery;
 
 // Verify that we are indeed on a Neptun page
 function isNeptunPage() {
@@ -6,15 +6,15 @@ function isNeptunPage() {
 }
 
 // returns the current URL of the page we're on (as a URL object)
-function getCurrentPage(){
-  url = new URL(location.href);
-  url.search = '';
-  url.hash = '';
+function getCurrentPage() {
+  const url = new URL(location.href);
+  url.search = "";
+  url.hash = "";
   return url;
 }
 
 // Returns whether we are on the login page
-function isLoginPage(){
+function isLoginPage() {
   return $("div.login").length > 0;
 }
 
@@ -25,8 +25,8 @@ function isLoggedIn() {
 
 // Parses and returns the Neptun code of the current user
 function getNeptunCode() {
-  if($(".user-menu__code").size() > 0){
-    return $(".user-menu__code").text().split('  ').reverse()[0].substring(1,7);
+  if ($(".user-menu__code").size() > 0) {
+    return $(".user-menu__code").text().split("  ").reverse()[0].substring(1, 7);
   }
 }
 
@@ -45,8 +45,8 @@ function getDomain() {
 
 // Parses and returns the sanitized name of the current training
 function getTraining() {
-  if($(".user-menu__training").size() > 0){
-    return $(".user-menu__training").text().split('  ')[0].substr(1)
+  if ($(".user-menu__training").size() > 0) {
+    return $(".user-menu__training").text().split("  ")[0].substr(1);
   }
 }
 
@@ -178,40 +178,36 @@ function isFailingGrade(str) {
   });
 }
 
-// https://gist.github.com/jherax/968ad4ff8eaa9ceb9159
-function getEventHandlers(element, eventns) {
-  const $ = window.jQuery;
-  const i = (eventns || '').indexOf('.'),
-    event = i > -1 ? eventns.substr(0, i) : eventns,
-    namespace = i > -1 ? eventns.substr(i + 1) : void(0),
-    handlers = Object.create(null);
-  element = $(element);
-  if (!element.length) return handlers;
-  // gets the events associated to a DOM element
-  const listeners = $._data(element.get(0), "events") || handlers;
-  const events = event ? [event] : Object.keys(listeners);
-  if (!eventns) return listeners; // Object with all event types
-  events.forEach((type) => {
-    // gets event-handlers by event-type or namespace
-    (listeners[type] || []).forEach(getHandlers, type);
-  });
-  // eslint-disable-next-line
-  function getHandlers(e) {
-    const type = this.toString();
-    const eNamespace = e.namespace || (e.data && e.data.handler);
-    // gets event-handlers by event-type or namespace
-    if ((event === type && !namespace) ||
-        (eNamespace === namespace && !event) ||
-        (eNamespace === namespace && event === type)) {
-      handlers[type] = handlers[type] || [];
-      handlers[type].push(e);
-    }
-  }
-  return handlers;
-}
-
-
-
+// // https://gist.github.com/jherax/968ad4ff8eaa9ceb9159
+// function getEventHandlers(element, eventns) {
+//   const i = (eventns || '').indexOf('.'),
+//     event = i > -1 ? eventns.substr(0, i) : eventns,
+//     namespace = i > -1 ? eventns.substr(i + 1) : void(0),
+//     handlers = Object.create(null);
+//   element = $(element);
+//   if (!element.length) return handlers;
+//   // gets the events associated to a DOM element
+//   const listeners = $._data(element.get(0), "events") || handlers;
+//   const events = event ? [event] : Object.keys(listeners);
+//   if (!eventns) return listeners; // Object with all event types
+//   events.forEach((type) => {
+//     // gets event-handlers by event-type or namespace
+//     (listeners[type] || []).forEach(getHandlers, type);
+//   });
+//   // eslint-disable-next-line
+//   function getHandlers(e) {
+//     const type = this.toString();
+//     const eNamespace = e.namespace || (e.data && e.data.handler);
+//     // gets event-handlers by event-type or namespace
+//     if ((event === type && !namespace) ||
+//         (eNamespace === namespace && !event) ||
+//         (eNamespace === namespace && event === type)) {
+//       handlers[type] = handlers[type] || [];
+//       handlers[type].push(e);
+//     }
+//   }
+//   return handlers;
+// }
 
 module.exports = {
   isNeptunPage,
@@ -224,6 +220,4 @@ module.exports = {
   injectCss,
   isPassingGrade,
   isFailingGrade,
-  getEventHandlers,
-
-}
+};

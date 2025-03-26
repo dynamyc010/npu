@@ -18,12 +18,12 @@ function getLoginUsers() {
 }
 
 function simulateTyping(selector, value) {
-  let $el = $(selector);
-  if ($el.length) {
-      $el.focus(); // Focus on the field
-      $el.val(value).trigger($.Event('input', { bubbles: true })); // Set value and trigger event
-      $el.trigger($.Event('keyup', { key: 'a' })); // Simulate keypress
-      $el.blur(); // Trigger validation
+  const e = $(selector);
+  if (e.length) {
+    e.focus(); // Focus on the field
+    e.val(value).trigger($.Event("input", { bubbles: true })); // Set value and trigger event
+    e.trigger($.Event("keyup", { key: "a" })); // Simulate keypress
+    e.blur(); // Trigger validation
   }
 }
 
@@ -113,19 +113,22 @@ function initUserSelect() {
       return false;
     }
 
-    simulateTyping('input#userName', users[$(this).get(0).selectedIndex]);
-    simulateTyping("input[type='password']", atob(storage.get("users", utils.getDomain(), users[$(this).get(0).selectedIndex], "password")));
+    simulateTyping("input#userName", users[$(this).get(0).selectedIndex]);
+    simulateTyping(
+      "input[type='password']",
+      atob(storage.get("users", utils.getDomain(), users[$(this).get(0).selectedIndex], "password"))
+    );
 
-    document.querySelector("input[type='password']").dispatchEvent(new Event('input', {bubbles: true}))
-    document.querySelector("input#userName").dispatchEvent(new Event('input', {bubbles: true}))
+    document.querySelector("input[type='password']").dispatchEvent(new Event("input", { bubbles: true }));
+    document.querySelector("input#userName").dispatchEvent(new Event("input", { bubbles: true }));
   });
 
-  console.log(utils.getEventHandlers("#login-button", "click"))
+  console.log(utils.getEventHandlers("#login-button", "click"));
 
   $("#login-button")
     .attr("type", "")
-    .bind("click", function (e) {
-      if(isAutologin) return;
+    .bind("click", function () {
+      if (isAutologin) return;
 
       if ($("#user_sel").val() === "__OTHER__") {
         if ($("input#userName").val().trim() === "" || $("input[type='password']").val().trim() === "") {
@@ -139,7 +142,13 @@ function initUserSelect() {
               "Szeretnéd menteni a beírt adatokat, hogy később egy kattintással be tudj lépni erről a számítógépről?"
             )
           ) {
-            storage.set("users", utils.getDomain(), $("input#userName").val().toUpperCase(), "password", btoa($("input[type='password']").val()));
+            storage.set(
+              "users",
+              utils.getDomain(),
+              $("input#userName").val().toUpperCase(),
+              "password",
+              btoa($("input[type='password']").val())
+            );
           }
           submitLogin();
           return;
