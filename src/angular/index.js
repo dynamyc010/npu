@@ -35,8 +35,7 @@ function init() {
 
 async function continueInit() {
   await onPageChange();
-
-  //window.onhashchange += onHashChange();
+  
   const observer = new MutationObserver(() => onPageChange());
 
   observer.observe(document.body, { childList: true, subtree: true });
