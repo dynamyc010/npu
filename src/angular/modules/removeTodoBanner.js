@@ -17,11 +17,11 @@ function shouldRemoveBanner() {
   return (
     !todo.hasActiveReclassificationTerm &&
     !todo.otpStatementForDiscount &&
-    todo.numberOfImpositionStatement == 0 &&
-    todo.numberOfPayments == 0 &&
-    todo.numberOfQuestionnaires == 0 &&
-    todo.numberOfSuggestedMark == 0 &&
-    todo.numberOfUnregisteredSubjects == 0
+    todo.numberOfImpositionStatement === 0 &&
+    todo.numberOfPayments === 0 &&
+    todo.numberOfQuestionnaires === 0 &&
+    todo.numberOfSuggestedMark === 0 &&
+    todo.numberOfUnregisteredSubjects === 0
   );
 }
 
@@ -39,7 +39,7 @@ function init() {
 module.exports = {
   identifier: identifier.join("."),
   shouldActivate: () => {
-    return utils.isLoggedIn() && ($("button#notification-button-close").length <= 0);
+    return utils.isLoggedIn() && $("button#notification-button-close").length <= 0;
   },
   initialize: () => {
     init();

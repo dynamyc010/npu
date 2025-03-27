@@ -23,7 +23,7 @@ function getRefreshToken() {
 function sendApiRequest(url) {
   const res = $.ajax(url, {
     headers: {
-      Authorization: "Bearer " + getAccessToken(),
+      Authorization: `Bearer ${getAccessToken()}`,
     },
     async: false,
   });
