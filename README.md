@@ -20,7 +20,7 @@ A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, 
 > Ez a fork egy work-in-progress, így nem fog minden tökéletesen működni.
 > Egyenlőre az implementált modulok a következőek az új Neptun felületén:
 > 
-> `autoLogin`
+> `autoLogin, addversion`
 >
 > Az egyetlen tesztelt felület egyenlőre az [Óbudai Egyetem](https://neptun.uni-obuda.hu/ujhallgato/) új Neptun felülete.
 > Testers welcome!
@@ -129,6 +129,14 @@ Eleged van abból, hogy minden egyes alkalommal be kell állítanod, hogy 500 el
 
 ## Újdonságok
 
+#### 2025. március 27.
+*   #### Angular
+    * **Újdonság:** Az új felületen az NPU mostantól tiszteli a kiválasztott nyelvedet.
+    * **Újdonság:** Alúl mostantól láthatod a script verzióját mely jelenleg fut.
+*   #### Legacy
+    * **Javítva:** Régi Neptun felületén az NPU-ra mutató link változtatva.
+*   ### Független
+    * **Fejlődés:** Verziókezelés mostantól figyelembe veszi a Gites hashet és branchet. Ezt felhasználóként nem feltétlen fogod látni, fejlesztéshez viszont kellemes.
 #### 2025. március 26.
 *   #### Angular
     * **Fejlődés:** A Neptun PowerUp! már az új felületen is működik. Ezentúl a változtatások két részre lesznek osztva, attól függően hogy a változtatás melyik felületet érinti.
