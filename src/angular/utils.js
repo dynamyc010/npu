@@ -11,6 +11,33 @@ function isNeptunPage() {
   return document.title.toLowerCase().indexOf("neptun web") !== -1;
 }
 
+// Well that was easy.
+function getAccessToken() {
+  return unsafeWindow.sessionStorage.access_token;
+}
+
+function getRefreshToken() {
+  return unsafeWindow.sessionStorage.refresh_token;
+}
+
+function sendApiRequest(url) {
+  const res = $.ajax(url, {
+    headers: {
+      Authorization: "Bearer " + getAccessToken(),
+    },
+    async: false,
+  });
+  console.log(res);
+  switch (res.status) {
+    case 200:
+      return res.responseJSON;
+    case 403:
+    case 401:
+      // unauthorized
+      break;
+  }
+}
+
 function getCurrentLanguage() {
   if (currentLanguage) return currentLanguage;
   const lang = $(".footer__language span.text-uppercase").text().toLowerCase();
@@ -212,6 +239,9 @@ module.exports = {
   getDomain,
   getCurrentPage,
   getLocalizedString,
+  getAccessToken,
+  getRefreshToken,
+  sendApiRequest,
   isLoginPage,
   isLoggedIn,
   getNeptunCode,
