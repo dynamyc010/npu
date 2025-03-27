@@ -59,10 +59,6 @@ async function changeActiveModule() {
   // Loop through loaded modules, and destroy the ones we don't need.
   // modules.filter((m) => loadedModules.indexOf(m.identifier) !== -1).forEach(m => {
   loadedModules.forEach(m => {
-    // if(!m.shouldActivate()){
-    //   m.destroy();
-    // }
-
     // Let's just destroy and reload everything as needed for now.
     console.log("destroying", m.identifier);
     m.destroy();
