@@ -8,7 +8,7 @@ let loadedModules = [];
 
 function init() {
   function isLoadingShown() {
-    return $("neptun-loading-template").length >= 0;
+    return $("neptun-loading-template").length > 0;
   }
   function isLoadingGone() {
     return $("neptun-loading-template").length <= 0;
