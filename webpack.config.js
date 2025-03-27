@@ -1,6 +1,30 @@
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin')
+const git = new GitRevisionPlugin({
+  versionCommand: "describe --always --tags",
+  branch: true
+});
+
+function getVersion() {
+  if(git.version() == undefined){
+    console.log('fallback')
+    // Fallback to package.json
+    const version = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json"), "utf8")).version;
+    if (typeof version !== "string" || !/^\d+\.\d+\.\d+$/.exec(version)) {
+      throw new Error(`Invalid package version: ${version}`);
+    }
+    return version;
+  }
+  let version = git.version();
+  if(git.branch() !== "angular"){
+    version += "-" + git.branch();
+  }
+
+  return version;
+}
+
 
 module.exports = {
   mode: "production",
@@ -17,10 +41,9 @@ module.exports = {
   plugins: [
     new webpack.BannerPlugin({
       banner: () => {
-        const version = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json"), "utf8")).version;
-        if (typeof version !== "string" || !/^\d+\.\d+\.\d+$/.exec(version)) {
-          throw new Error(`Invalid package version: ${version}`);
-        }
+        const version = getVersion();
+
+        console.log('using version string', version)
         const meta = fs.readFileSync(path.join(__dirname, "src", "meta.txt"), "utf8");
         return meta.replace("<version>", version);
       },
