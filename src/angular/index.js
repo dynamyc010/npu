@@ -2,10 +2,7 @@ const $ = window.jQuery;
 const { getCurrentPage, isNeptunPage } = require("./utils");
 const storage = require("../shared/storage");
 
-const modules = [
-  require("./modules/autoLogin"),
-  require("./modules/addVersion")
-];
+const modules = [require("./modules/autoLogin"), require("./modules/addVersion")];
 
 let loadedModules = [];
 

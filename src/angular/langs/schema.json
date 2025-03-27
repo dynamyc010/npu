@@ -1,17 +1,17 @@
 {
-    "angular":{
-        "autologin":{
-            "otherUser": null,
-            "deleteUser": null,
-            "deletePopup": null,
-            "deleteUserNotFound": null,
-            "deleteSuccess": null,
-            "deleteAllKeyword": null,
-            "deleteAllSuccess": null,
-            "confirmSaveDialog": null,
-            "confirmChangeDialog": null,
-            "abortLogin": null
-        }
-    },
-    "unlocalized": null
+  "angular": {
+    "autologin": {
+      "otherUser": null,
+      "deleteUser": null,
+      "deletePopup": null,
+      "deleteUserNotFound": null,
+      "deleteSuccess": null,
+      "deleteAllKeyword": null,
+      "deleteAllSuccess": null,
+      "confirmSaveDialog": null,
+      "confirmChangeDialog": null,
+      "abortLogin": null
+    }
+  },
+  "unlocalized": null
 }

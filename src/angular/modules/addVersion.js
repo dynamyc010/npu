@@ -1,3 +1,5 @@
+const identifier = ["angular", "addversion"];
+
 const $ = window.jQuery;
 
 function isAlreadyAdded() {
@@ -16,7 +18,7 @@ function addVersionOnBottom() {
 }
 
 module.exports = {
-  identifier: "angular.addversion",
+  identifier: identifier.join("."),
   shouldActivate: () => !isAlreadyAdded(),
   initialize: () => {
     addVersionOnBottom();

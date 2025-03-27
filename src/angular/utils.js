@@ -1,10 +1,10 @@
 const $ = window.jQuery;
-const supportedLanguages = ["en", "hu", "de"]
-var currentLanguage = undefined;
-var langStrings = undefined;
+const supportedLanguages = ["en", "hu", "de"];
+let currentLanguage = undefined;
+let langStrings = undefined;
 
 // Fallback to HU lang
-const fallback = require('./langs/hu.json');
+const fallback = require("./langs/hu.json");
 
 // Verify that we are indeed on a Neptun page
 function isNeptunPage() {
@@ -12,24 +12,23 @@ function isNeptunPage() {
 }
 
 function getCurrentLanguage() {
-  if(currentLanguage) return currentLanguage;
+  if (currentLanguage) return currentLanguage;
   const lang = $(".footer__language span.text-uppercase").text().toLowerCase();
   // return sane default if something goes wrong
-  if(supportedLanguages.indexOf(lang) === -1) return "hu";
-  console.log("loading lang", lang)
+  if (supportedLanguages.indexOf(lang) === -1) return "hu";
   return lang;
 }
 
 function getLocalizedString(...args) {
   // this is for the identifier
-  var ids = args.shift();
+  let ids = args.shift();
   ids = ids.concat(args);
-  
-  if(!currentLanguage) currentLanguage = getCurrentLanguage();
-  if(!langStrings) langStrings = require(`./langs/${currentLanguage}.json`);
-  var string = deepGetProp(langStrings, ids.slice(0))
-  if(string === "" || string === undefined || !string){
-    console.warn(ids, "is unlocalized")
+
+  if (!currentLanguage) currentLanguage = getCurrentLanguage();
+  if (!langStrings) langStrings = require(`./langs/${currentLanguage}.json`);
+  const string = deepGetProp(langStrings, ids.slice(0));
+  if (string === "" || string === undefined || !string) {
+    console.warn(ids, "is unlocalized");
     return deepGetProp(fallback, ids.slice(0));
   }
   return string.toString();

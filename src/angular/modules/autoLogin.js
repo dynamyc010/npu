@@ -1,4 +1,4 @@
-const identifier = ["angular", "autologin"]
+const identifier = ["angular", "autologin"];
 
 const $ = window.jQuery;
 const utils = require("../utils");
@@ -21,7 +21,7 @@ function getLoginUsers() {
 
 function getLocalizedString(...args) {
   return utils.getLocalizedString(identifier, args);
-} 
+}
 
 function simulateTyping(selector, value) {
   const e = $(selector);
@@ -95,7 +95,10 @@ function initUserSelect() {
 
       let deleted = false;
       users.forEach(user => {
-        if (user === itemToDelete.toUpperCase() || itemToDelete.toUpperCase() === getLocalizedString("deleteAllKeyword")) {
+        if (
+          user === itemToDelete.toUpperCase() ||
+          itemToDelete.toUpperCase() === getLocalizedString("deleteAllKeyword")
+        ) {
           storage.set("users", utils.getDomain(), user, "password", null);
           deleted = true;
         }
@@ -138,11 +141,7 @@ function initUserSelect() {
 
         const foundUser = users.find(user => user === $("input#userName").val().toUpperCase());
         if (!foundUser) {
-          if (
-            confirm(
-              getLocalizedString("confirmSaveDialog")
-            )
-          ) {
+          if (confirm(getLocalizedString("confirmSaveDialog"))) {
             storage.set(
               "users",
               utils.getDomain(),
@@ -166,10 +165,8 @@ function initUserSelect() {
         atob(storage.get("users", utils.getDomain(), users[$("#user_sel").get(0).selectedIndex], "password"))
       ) {
         if (
-          // 
-          confirm(
-            getLocalizedString("confirmChangeDialog").replace("$1", $("input#userName").val().toUpperCase())
-          )
+          //
+          confirm(getLocalizedString("confirmChangeDialog").replace("$1", $("input#userName").val().toUpperCase()))
         ) {
           storage.set(
             "users",
@@ -252,7 +249,7 @@ function submitLogin() {
 }
 
 module.exports = {
-  identifier: identifier.join('.'),
+  identifier: identifier.join("."),
   shouldActivate: () => utils.isLoginPage(),
   initialize: () => {
     initUserSelect();
