@@ -135,7 +135,7 @@ Eleged van abból, hogy minden egyes alkalommal be kell állítanod, hogy 500 el
     * **Újdonság:** Alúl mostantól láthatod a script verzióját mely jelenleg fut.
 *   #### Legacy
     * **Javítva:** Régi Neptun felületén az NPU-ra mutató link változtatva.
-*   ### Független
+*   #### Független
     * **Fejlődés:** Verziókezelés mostantól figyelembe veszi a Gites hashet és branchet. Ezt felhasználóként nem feltétlen fogod látni, fejlesztéshez viszont kellemes.
 #### 2025. március 26.
 *   #### Angular
