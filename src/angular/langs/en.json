@@ -1,0 +1,17 @@
+{
+    "angular":{
+        "autologin": {
+            "otherUser": "Add other user...",
+            "deleteUser": "Remove a user...",
+            "deletePopup": "Input the Neptun code of the account you'd like to remove from storage. \n\nTo remove all of them, write: ",
+            "deleteUserNotFound": "The given user could not be found in storage. Would you like to try again?",
+            "deleteSuccess": "User $1 has been successfully removed from storage.",
+            "deleteAllKeyword": "ALL",
+            "deleteAllSuccess": "All stored users have been successfully removed from storage.",
+            "confirmSaveDialog": "Would you like to save this login, so you can log in with one click next time from this computer?",
+            "confirmChangeDialog": "Would you like to update the saved password of $1 to the currently input password?",
+            "abortLogin": "Abort Login"
+        }
+    },
+    "unlocalized" : "&lt;unlocalized&gt;"
+}

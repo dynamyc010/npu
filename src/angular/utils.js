@@ -1,8 +1,38 @@
 const $ = window.jQuery;
+const supportedLanguages = ["en", "hu", "de"]
+var currentLanguage = undefined;
+var langStrings = undefined;
+
+// Fallback to HU lang
+const fallback = require('./langs/hu.json');
 
 // Verify that we are indeed on a Neptun page
 function isNeptunPage() {
   return document.title.toLowerCase().indexOf("neptun web") !== -1;
+}
+
+function getCurrentLanguage() {
+  if(currentLanguage) return currentLanguage;
+  const lang = $(".footer__language span.text-uppercase").text().toLowerCase();
+  // return sane default if something goes wrong
+  if(supportedLanguages.indexOf(lang) === -1) return "hu";
+  console.log("loading lang", lang)
+  return lang;
+}
+
+function getLocalizedString(...args) {
+  // this is for the identifier
+  var ids = args.shift();
+  ids = ids.concat(args);
+  
+  if(!currentLanguage) currentLanguage = getCurrentLanguage();
+  if(!langStrings) langStrings = require(`./langs/${currentLanguage}.json`);
+  var string = deepGetProp(langStrings, ids.slice(0))
+  if(string === "" || string === undefined || !string){
+    console.warn(ids, "is unlocalized")
+    return deepGetProp(fallback, ids.slice(0));
+  }
+  return string.toString();
 }
 
 // returns the current URL of the page we're on (as a URL object)
@@ -88,17 +118,17 @@ function getTraining() {
 // }
 
 // // Reads the value at the provided path in a deeply nested object
-// function deepGetProp(o, s) {
-//   let c = o;
-//   while (s.length) {
-//     const n = s.shift();
-//     if (!(c instanceof Object && n in c)) {
-//       return;
-//     }
-//     c = c[n];
-//   }
-//   return c;
-// }
+function deepGetProp(o, s) {
+  let c = o;
+  while (s.length) {
+    const n = s.shift();
+    if (!(c instanceof Object && n in c)) {
+      return;
+    }
+    c = c[n];
+  }
+  return c;
+}
 
 // // Sets a value at the provided path in a deeply nested object
 // function deepSetProp(o, s, v) {
@@ -182,6 +212,7 @@ module.exports = {
   isNeptunPage,
   getDomain,
   getCurrentPage,
+  getLocalizedString,
   isLoginPage,
   isLoggedIn,
   getNeptunCode,

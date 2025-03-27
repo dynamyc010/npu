@@ -1,3 +1,5 @@
+const identifier = ["angular", "autologin"]
+
 const $ = window.jQuery;
 const utils = require("../utils");
 const storage = require("../../shared/storage");
@@ -16,6 +18,10 @@ function getLoginUsers() {
   });
   return users;
 }
+
+function getLocalizedString(...args) {
+  return utils.getLocalizedString(identifier, args);
+} 
 
 function simulateTyping(selector, value) {
   const e = $(selector);
@@ -44,8 +50,8 @@ function initUserSelect() {
     $('<option class="neptun_kod"></option>').attr("id", user).attr("value", user).text(user).appendTo(selectField);
   });
   selectField.append('<option disabled="disabled" class="user_separator">&nbsp;</option>');
-  selectField.append('<option id="other_user" value="__OTHER__">Más felhasználó...</option>');
-  selectField.append('<option id="edit_list" value="__DELETE__">Tárolt kód törlése...</option>');
+  selectField.append(`<option id="other_user" value="__OTHER__">${getLocalizedString("otherUser")}</option>`);
+  selectField.append(`<option id="edit_list" value="__DELETE__">${getLocalizedString("deleteUser")}</option>`);
 
   $("td", selectField).css("position", "relative");
   selectField
@@ -63,7 +69,7 @@ function initUserSelect() {
   selectField.bind("mousedown focus change", function () {
     abortLogin();
   });
-  $("input#mat-input-1 ").bind("mousedown focus change", function () {
+  $("input[type='password']").bind("mousedown focus change", function () {
     abortLogin();
   });
 
@@ -80,8 +86,8 @@ function initUserSelect() {
     if ($(this).val() === "__DELETE__") {
       $("#user_sel").val(users[0]).trigger("change");
       const itemToDelete = unsafeWindow.prompt(
-        "Írd be a törlendő neptun kódot. Az összes törléséhez írd be: MINDEGYIKET",
-        ["mindegyiket", ...users].join("   /   ")
+        getLocalizedString("deletePopup") + getLocalizedString("deleteAllKeyword"),
+        [getLocalizedString("deleteAllKeyword"), ...users].join("   /   ")
       );
       if (!itemToDelete) {
         return false;
@@ -89,26 +95,26 @@ function initUserSelect() {
 
       let deleted = false;
       users.forEach(user => {
-        if (user === itemToDelete.toUpperCase() || itemToDelete.toUpperCase() === "MINDEGYIKET") {
+        if (user === itemToDelete.toUpperCase() || itemToDelete.toUpperCase() === getLocalizedString("deleteAllKeyword")) {
           storage.set("users", utils.getDomain(), user, "password", null);
           deleted = true;
         }
       });
 
       if (!deleted) {
-        if (confirm("A megadott neptun kód nincs benne a tárolt listában. Megpróbálod újra?")) {
+        if (confirm(getLocalizedString("deleteUserNotFound"))) {
           $("#user_sel").val("__DELETE__").trigger("change");
         }
         return false;
       }
 
-      if (itemToDelete.toUpperCase() === "MINDEGYIKET") {
-        alert("Az összes tárolt neptun kód törölve lett a bejelentkezési listából.");
+      if (itemToDelete.toUpperCase() === getLocalizedString("deleteAllKeyword")) {
+        alert(getLocalizedString("deleteAllSuccess"));
         window.location.reload();
         return false;
       }
 
-      alert(`A(z) ${itemToDelete} felhasználó törölve lett a bejelentkezési listából.`);
+      alert(getLocalizedString("deleteSuccess").replace("$1", itemToDelete));
       window.location.reload();
       return false;
     }
@@ -134,7 +140,7 @@ function initUserSelect() {
         if (!foundUser) {
           if (
             confirm(
-              "Szeretnéd menteni a beírt adatokat, hogy később egy kattintással be tudj lépni erről a számítógépről?"
+              getLocalizedString("confirmSaveDialog")
             )
           ) {
             storage.set(
@@ -160,10 +166,9 @@ function initUserSelect() {
         atob(storage.get("users", utils.getDomain(), users[$("#user_sel").get(0).selectedIndex], "password"))
       ) {
         if (
+          // 
           confirm(
-            `Szeretnéd megváltoztatni a(z) ${$("input#userName")
-              .val()
-              .toUpperCase()} felhasználó tárolt jelszavát a most beírt jelszóra?`
+            getLocalizedString("confirmChangeDialog").replace("$1", $("input#userName").val().toUpperCase())
           )
         ) {
           storage.set(
@@ -199,10 +204,10 @@ function initAutoLogin() {
 
   const clone = $("#forgotten-password-button").clone(false);
   clone.attr("id", "abort-button");
-  clone.children().children().text("Megszakít");
+  clone.children().children().text(getLocalizedString("abortLogin"));
 
   $("#login-button").parent().append(clone);
-  $("#abort-button .neptun-button__body .neptun-button__label").text("Megszakít");
+  $("#abort-button .neptun-button__body .neptun-button__label").text(getLocalizedString("abortLogin"));
   $("#abort-button").click(function (e) {
     e.preventDefault();
     abortLogin();
@@ -247,7 +252,7 @@ function submitLogin() {
 }
 
 module.exports = {
-  identifier: "angular.autologin",
+  identifier: identifier.join('.'),
   shouldActivate: () => utils.isLoginPage(),
   initialize: () => {
     initUserSelect();

@@ -1,0 +1,17 @@
+{
+    "angular":{
+        "autologin":{
+            "otherUser": "Más felhasználó...",
+            "deleteUser": "Tárolt kód törlése...",
+            "deletePopup": "Írd be a törlendő neptun kódot. \n\nAz összes törléséhez írd be: ",
+            "deleteUserNotFound": "A megadott neptun kód nincs benne a tárolt listában. Megpróbálod újra?",
+            "deleteSuccess": "A(z) $1 felhasználó törölve lett a bejelentkezési listából.",
+            "deleteAllKeyword": "MINDEGYIKET",
+            "deleteAllSuccess": "Az összes tárolt neptun kód törölve lett a bejelentkezési listából.",
+            "confirmSaveDialog": "Szeretnéd menteni a beírt adatokat, hogy később egy kattintással be tudj lépni erről a számítógépről?",
+            "confirmChangeDialog": "Szeretnéd megváltoztatni a(z) $1 felhasználó tárolt jelszavát a most beírt jelszóra?",
+            "abortLogin": "Megszakít"
+        }
+    },
+    "unlocalized": "&lt;nem lefordított&gt;"
+}

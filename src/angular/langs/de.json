@@ -1,0 +1,16 @@
+{
+    "angular":{
+        "autologin":{
+            "otherUser": null,
+            "deleteUser": null,
+            "deletePopup": null,
+            "deleteSuccess": null,
+            "deleteAllKeyword": null,
+            "deleteAllSuccess": null,
+            "confirmSaveDialog": null,
+            "confirmChangeDialog": null,
+            "abortLogin": null
+        }
+    },
+    "unlocalized": "&lt;nicht lokalisiert&gt;"
+}
