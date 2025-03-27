@@ -6,6 +6,7 @@ const modules = [
   require("./modules/autoLogin"),
   require("./modules/addVersion"),
   require("./modules/removeTodoBanner"),
+  require("./modules/infiniteSession"),
 ];
 
 let loadedModules = [];
@@ -18,14 +19,14 @@ function init() {
     return $("neptun-loading-template").length <= 0;
   }
 
-  console.log("started loading...");
+  console.debug("[npu-init] started loading...");
 
   const stage1 = setInterval(() => {
     if (isLoadingShown()) {
       clearInterval(stage1);
       const stage2 = setInterval(() => {
         if (isLoadingGone()) {
-          console.log("loading finished");
+          console.debug("[npu-init] loading finished");
           clearInterval(stage2);
           setTimeout(() => {
             continueInit();
@@ -52,7 +53,7 @@ async function onPageChange() {
   const url = getCurrentPage();
 
   if (url.toString() !== currentUrl.toString()) {
-    console.log("switching to", url.toString());
+    console.debug("[the-observer] switching to", url.toString());
     currentUrl = url;
     changeActiveModule();
   }
@@ -62,24 +63,31 @@ async function onPageChange() {
 async function changeActiveModule() {
   // Loop through loaded modules, and destroy the ones we don't need.
   // modules.filter((m) => loadedModules.indexOf(m.identifier) !== -1).forEach(m => {
+  const newModules = [];
   loadedModules.forEach(m => {
     // Let's just destroy and reload everything as needed for now.
-    console.log("destroying", m.identifier);
+    if (m.shouldNotDestroy()) {
+      console.debug("[module-destroyer] skipping", m.identifier);
+      newModules[newModules.length] = m;
+      return;
+    }
+    console.debug("[module-destroyer] destroying", m.identifier);
     m.destroy();
     // loadedModules.splice(loadedModules.indexOf(m))
   });
 
-  loadedModules = [];
+  loadedModules = newModules;
 
   modules.forEach(m => {
-    console.log("module", m.identifier, m.shouldActivate());
+    if (loadedModules.some(loaded => loaded.identifier === m.identifier)) return;
+    console.debug("[module-loader]", m.identifier, m.shouldActivate());
     if (m.shouldActivate() && (isNeptunPage() || m.runOutsideNeptun)) {
-      console.log("loading", m.identifier);
+      console.debug("[module-loader] loading", m.identifier);
       m.initialize();
       loadedModules[loadedModules.length] = m;
     }
   });
-  console.log("loaded modules:", loadedModules);
+  console.debug("[module-loader] loaded modules:", loadedModules);
 }
 
 module.exports = {
