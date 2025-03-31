@@ -26,7 +26,11 @@ function shouldRemoveBanner() {
 }
 
 function removeBannerFromTop() {
-  $("button#notification-button-close").click();
+  try {
+    $("button#notification-button-close").click();
+  } catch (e) {
+    return;
+  }
 }
 
 function init() {
@@ -38,9 +42,8 @@ function init() {
 
 module.exports = {
   identifier: identifier.join("."),
-  shouldActivate: () => {
-    return utils.isLoggedIn() && $("button#notification-button-close").length <= 0;
-  },
+  shouldActivate: () => utils.isLoggedIn(),
+  shouldNotDestroy: () => false,
   initialize: () => {
     init();
   },

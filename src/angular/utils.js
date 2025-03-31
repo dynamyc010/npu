@@ -1,5 +1,6 @@
 const $ = window.jQuery;
 const supportedLanguages = ["en", "hu", "de"];
+const storage = require("../shared/storage");
 let currentLanguage = undefined;
 let langStrings = undefined;
 
@@ -27,7 +28,6 @@ function sendApiRequest(url) {
     },
     async: false,
   });
-  console.log(res);
   switch (res.status) {
     case 200:
       return res.responseJSON;
@@ -35,6 +35,68 @@ function sendApiRequest(url) {
     case 401:
       // unauthorized
       break;
+  }
+}
+
+function refreshToken() {
+  const res = $.ajax("api/Account/GetNewTokens", {
+    headers: {
+      Authorization: `Bearer ${getRefreshToken()}`,
+    },
+    method: "POST",
+    contentType: "application/json; charset=utf-8",
+    data: JSON.stringify({
+      refreshToken: getRefreshToken(),
+    }),
+    async: false,
+  });
+
+  switch (res.status) {
+    case 200: {
+      const tokens = res.responseJSON;
+
+      unsafeWindow.sessionStorage.access_token = tokens.accessToken;
+      unsafeWindow.sessionStorage.refresh_token = tokens.refreshToken;
+      return;
+    }
+    case 403:
+    case 401:
+      console.error(`[refreshToken] failed token refresh`, res);
+      refreshTokenWithAuthenticate();
+      return;
+  }
+}
+
+function refreshTokenWithAuthenticate() {
+  if (isLoggedIn()) return;
+
+  const res = $.ajax("api/Account/Authenticate", {
+    method: "POST",
+    contentType: "application/json; charset=utf-8",
+    data: JSON.stringify({
+      userName: getNeptunCode(),
+      password: atob(storage.get("users", getDomain(), getNeptunCode(), "password")),
+      captcha: "",
+      captchaIdentifier: "",
+      token: "",
+      LCID: 1038,
+    }),
+    xhrFields: { withCredentials: true },
+    async: false,
+  });
+
+  switch (res.status) {
+    case 200: {
+      const tokens = res.responseJSON.data;
+
+      unsafeWindow.sessionStorage.access_token = tokens.accessToken;
+      unsafeWindow.sessionStorage.refresh_token = tokens.refreshToken;
+      return;
+    }
+    case 403:
+    case 401:
+      console.error(`[refreshTokenWithAuthenticate] failed token refresh with auth`, res);
+      return;
   }
 }
 
@@ -47,15 +109,20 @@ function getCurrentLanguage() {
 }
 
 function getLocalizedString(...args) {
-  // this is for the identifier
-  let ids = args.shift();
-  ids = ids.concat(args);
+  let ids;
+  if (Array.isArray(args[0])) {
+    // this is for the identifier
+    ids = args.shift();
+    ids = ids.concat(args);
+  } else {
+    ids = args;
+  }
 
   if (!currentLanguage) currentLanguage = getCurrentLanguage();
   if (!langStrings) langStrings = require(`./langs/${currentLanguage}.json`);
   const string = deepGetProp(langStrings, ids.slice(0));
   if (string === "" || string === undefined || !string) {
-    console.warn(ids, "is unlocalized");
+    console.warn("[getLocalizedString]", ids, "is unlocalized");
     return deepGetProp(fallback, ids.slice(0));
   }
   return string.toString();
@@ -241,6 +308,7 @@ module.exports = {
   getLocalizedString,
   getAccessToken,
   getRefreshToken,
+  refreshToken,
   sendApiRequest,
   isLoginPage,
   isLoggedIn,

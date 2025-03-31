@@ -20,6 +20,7 @@ function addVersionOnBottom() {
 module.exports = {
   identifier: identifier.join("."),
   shouldActivate: () => !isAlreadyAdded(),
+  shouldNotDestroy: () => false,
   initialize: () => {
     addVersionOnBottom();
   },

@@ -251,6 +251,7 @@ function submitLogin() {
 module.exports = {
   identifier: identifier.join("."),
   shouldActivate: () => utils.isLoginPage(),
+  shouldNotDestroy: () => false,
   initialize: () => {
     initUserSelect();
     initAutoLogin();
