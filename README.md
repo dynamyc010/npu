@@ -29,7 +29,7 @@ A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, 
 
 ## Legújabb verzió
 
-- Legfrissebb verzió: **v3.0.4** (angular alpha)
+- Legfrissebb verzió: **v3.0.5** (angular alpha)
 - Kiadás dátuma: **2025. március 26.**
 
 Ha tudod, mit csinálsz, [kattints ide a telepítéshez](https://github.com/dynamyc010/npu/releases/latest/download/npu.user.js).<br>
