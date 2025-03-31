@@ -106,9 +106,15 @@ function getCurrentLanguage() {
 }
 
 function getLocalizedString(...args) {
-  // this is for the identifier
-  let ids = args.shift();
-  ids = ids.concat(args);
+  let ids;
+  if(Array.isArray(args[0])){
+    // this is for the identifier
+    ids = args.shift();
+    ids = ids.concat(args);
+  }
+  else{
+    ids = args;
+  }
 
   if (!currentLanguage) currentLanguage = getCurrentLanguage();
   if (!langStrings) langStrings = require(`./langs/${currentLanguage}.json`);

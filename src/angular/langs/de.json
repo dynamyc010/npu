@@ -4,6 +4,7 @@
       "otherUser": null,
       "deleteUser": null,
       "deletePopup": null,
+      "deleteUserNotFound": null,
       "deleteSuccess": null,
       "deleteAllKeyword": null,
       "deleteAllSuccess": null,
