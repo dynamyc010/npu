@@ -1,5 +1,6 @@
 const $ = window.jQuery;
 const supportedLanguages = ["en", "hu", "de"];
+const storage = require("../shared/storage");
 let currentLanguage = undefined;
 let langStrings = undefined;
 
@@ -40,7 +41,7 @@ function sendApiRequest(url) {
 function refreshToken() {
   const res = $.ajax("api/Account/GetNewTokens", {
     headers: {
-      Authorization: "Bearer " + getRefreshToken(),
+      Authorization: `Bearer ${getRefreshToken()}`,
     },
     method: "POST",
     contentType: "application/json; charset=utf-8",
@@ -51,12 +52,13 @@ function refreshToken() {
   });
 
   switch (res.status) {
-    case 200:
+    case 200: {
       const tokens = res.responseJSON;
 
       unsafeWindow.sessionStorage.access_token = tokens.accessToken;
       unsafeWindow.sessionStorage.refresh_token = tokens.refreshToken;
       return;
+    }
     case 403:
     case 401:
       console.error(`[refreshToken] failed token refresh`, res);
@@ -73,7 +75,7 @@ function refreshTokenWithAuthenticate() {
     contentType: "application/json; charset=utf-8",
     data: JSON.stringify({
       userName: getNeptunCode(),
-      password: atob(storage.get("users", utils.getDomain(), getNeptunCode(), "password")),
+      password: atob(storage.get("users", getDomain(), getNeptunCode(), "password")),
       captcha: "",
       captchaIdentifier: "",
       token: "",
@@ -84,12 +86,13 @@ function refreshTokenWithAuthenticate() {
   });
 
   switch (res.status) {
-    case 200:
+    case 200: {
       const tokens = res.responseJSON.data;
 
       unsafeWindow.sessionStorage.access_token = tokens.accessToken;
       unsafeWindow.sessionStorage.refresh_token = tokens.refreshToken;
       return;
+    }
     case 403:
     case 401:
       console.error(`[refreshTokenWithAuthenticate] failed token refresh with auth`, res);
@@ -107,12 +110,11 @@ function getCurrentLanguage() {
 
 function getLocalizedString(...args) {
   let ids;
-  if(Array.isArray(args[0])){
+  if (Array.isArray(args[0])) {
     // this is for the identifier
     ids = args.shift();
     ids = ids.concat(args);
-  }
-  else{
+  } else {
     ids = args;
   }
 

@@ -1,9 +1,8 @@
 const identifier = ["angular", "infiniteSession"];
-const $ = window.jQuery;
 const utils = require("../utils");
 
 let sessionRefreshTimeout;
-let timeout = 280;
+const timeout = 280;
 
 function keepAlive() {
   const timer = timeout * 1000 - 40000 + Math.floor(Math.random() * 40000);
