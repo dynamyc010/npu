@@ -29,7 +29,7 @@ A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, 
 
 ## Legújabb verzió
 
-- Legfrissebb verzió: **v3.0.3** (angular alpha)
+- Legfrissebb verzió: **v3.0.4** (angular alpha)
 - Kiadás dátuma: **2025. március 26.**
 
 Ha tudod, mit csinálsz, [kattints ide a telepítéshez](https://github.com/dynamyc010/npu/releases/latest/download/npu.user.js).<br>
@@ -131,7 +131,7 @@ Eleged van abból, hogy minden egyes alkalommal be kell állítanod, hogy 500 el
 
 - #### Angular
   - **Újdonság:** Az új felületen mostantól nem dob ki a rendszer 5-10 perc után. 🎉
-
+  - **Javítva:** NPU nem töltött be, ha a kezdő URL nem tartalmazta a jelenlegi oldalt. (Pl. https://url/hallgato nem töltötte be az NPU-t)
 #### 2025. március 27.
 
 - #### Angular
