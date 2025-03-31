@@ -19,7 +19,7 @@ A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, 
 > Ez a fork egy work-in-progress, így nem fog minden tökéletesen működni.
 > Egyenlőre az implementált modulok a következőek az új Neptun felületén:
 >
-> `autoLogin, addVersion, remoteTodoBanner, infiniteSession`
+> `autoLogin, addVersion, removeTodoBanner, infiniteSession`
 >
 > Az egyetlen tesztelt felület egyenlőre az [Óbudai Egyetem](https://neptun.uni-obuda.hu/ujhallgato/) új Neptun felülete.
 > Testers welcome!
