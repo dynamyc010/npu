@@ -19,7 +19,7 @@ function getVersion() {
   }
   let version = git.version();
   console.log(git.branch())
-  if(git.branch() !== "angular" || git.branch() !== "HEAD"){
+  if(git.branch() !== "angular" && git.branch() !== "HEAD"){
     version += "-" + git.branch();
   }
 
