@@ -18,14 +18,17 @@ function init() {
   function isLoadingGone() {
     return $("neptun-loading-template").length <= 0;
   }
+  function isFooterShown() {
+    return $("div.footer__content").length > 0;
+  }
 
   console.debug("[npu-init] started loading...");
 
   const stage1 = setInterval(() => {
-    if (isLoadingShown()) {
+    if (isLoadingShown() || isFooterShown()) {
       clearInterval(stage1);
       const stage2 = setInterval(() => {
-        if (isLoadingGone()) {
+        if (isLoadingGone() || isFooterShown()) {
           console.debug("[npu-init] loading finished");
           clearInterval(stage2);
           setTimeout(() => {
