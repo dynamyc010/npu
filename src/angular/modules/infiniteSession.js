@@ -9,10 +9,8 @@ function keepAlive() {
   console.debug("[infiniteSession] next token refresh in", timer / 1000, "s");
   sessionRefreshTimeout = setTimeout(() => {
     utils.refreshToken();
-    document
-      .querySelector("body")
-      .dispatchEvent(new Event("mousedown", { bubbles: true }))
-      .dispatchEvent(new Event("mouseup", { bubbles: true }));
+    document.querySelector("body").dispatchEvent(new Event("mousedown", { bubbles: true }));
+    document.querySelector("body").dispatchEvent(new Event("mouseup", { bubbles: true }));
     keepAlive();
   }, timer);
 }
