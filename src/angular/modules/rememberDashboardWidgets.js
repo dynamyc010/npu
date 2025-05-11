@@ -27,9 +27,13 @@ function loadWidgetStates() {
   }
 
   const widgets = getWidgets();
-  openWidgets.forEach(widgetId => {
-    const widget = widgets.filter(`#${widgetId}`);
-    widget.click();
+  openWidgets.forEach(widgetTitle => {
+    widgets.each(function() {
+      const titleElement = $(this).find(".widget__title");
+      if (titleElement.text().trim() === widgetTitle) {
+        $(this).click();
+      }
+    });
   })
 
   console.debug("[rememberDashboardWidgets] loaded open widgets:", openWidgets)
@@ -41,7 +45,9 @@ function saveOpenWidgets() {
       return $(this).hasClass("mat-expanded");
     })
     .map(function() {
-      return $(this).attr("id");
+      // Use the widget's title as an identifier because the widget's ID is unreliable
+      // As a downside remembered widgets will be forgotten when the user switches languages
+      return $(this).find(".widget__title").text().trim();
     })
     .get();
 
