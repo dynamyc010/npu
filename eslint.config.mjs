@@ -66,6 +66,7 @@ export default defineConfig([globalIgnores(["**/*.js", "**/*.mjs", "!src/**/*.js
         "one-var": ["error", "never"],
         "prefer-const": "error",
         "prefer-template": "error",
+        "semi": ["error", "always"],
         radix: "error",
     },
 }]);

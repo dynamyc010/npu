@@ -60,9 +60,9 @@ async function loadWidgetStates() {
         $(this).click();
       }
     });
-  })
+  });
 
-  console.debug("[rememberDashboardWidgets] loaded open widgets:", openWidgets)
+  console.debug("[rememberDashboardWidgets] loaded open widgets:", openWidgets);
 }
 
 async function saveOpenWidgets() {
@@ -79,7 +79,7 @@ async function saveOpenWidgets() {
     .get();
 
   storage.setForUser("dashboardOpenWidgets", openWidgets);
-  console.debug("[rememberDashboardWidgets] saved open widgets:", openWidgets)
+  console.debug("[rememberDashboardWidgets] saved open widgets:", openWidgets);
 }
 
 async function init() {
@@ -101,4 +101,4 @@ module.exports = {
   initialize: init,
   // Do actions before destroying
   destroy,
-}
+};
