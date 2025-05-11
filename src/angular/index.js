@@ -7,6 +7,7 @@ const modules = [
   require("./modules/addVersion"),
   require("./modules/removeTodoBanner"),
   require("./modules/infiniteSession"),
+  require("./modules/rememberDashboardWidgets"),
 ];
 
 let loadedModules = [];
