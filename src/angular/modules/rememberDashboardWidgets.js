@@ -26,9 +26,10 @@ async function getWidgets() {
         const maxAttempts = 100;
         if (attempts === maxAttempts) {
           reject(new Error("[rememberDashboardWidgets] failed to find widgets"));
+          return;
         }
         setTimeout(() => checkWidgets(attempts + 1), 50);
-        return
+        return;
       }
 
       resolve(widgets);
