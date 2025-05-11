@@ -23,7 +23,7 @@ async function getWidgets() {
 
       // Areas of the widgets that
       // - are clickable
-      // - have an ID that is hopefully stable
+      // - have a child element who's text can be used for identification (widget__title class)
       // - have a class that indicates if it is open or closed (mat-expanded)
       const widgets = widgetRoots.find("mat-expansion-panel-header");
 
