@@ -19,7 +19,7 @@ A program **felturbózza a Neptun-odat**: gyorsabb tárgy- és vizsgafelvétel, 
 > Ez a fork egy work-in-progress, így nem fog minden tökéletesen működni.
 > Egyenlőre az implementált modulok a következőek az új Neptun felületén:
 >
-> `autoLogin, addVersion, removeTodoBanner, infiniteSession`
+> `autoLogin, addVersion, removeTodoBanner, infiniteSession, rememberDashboardWidgets`
 >
 > Az egyetlen tesztelt felület egyenlőre az [Óbudai Egyetem](https://neptun.uni-obuda.hu/ujhallgato/) új Neptun felülete.
 > Testers welcome!
@@ -127,11 +127,17 @@ Eleged van abból, hogy minden egyes alkalommal be kell állítanod, hogy 500 el
 
 ## Újdonságok
 
+#### 2025. május 11.
+
+- #### Angular
+  - **Újdonság:** Az új felület kezdőoldalán az NPU megjegyzi melyik widgeteket (Pl. Vizsgák, Közelgő események) nyitottad ki.
+
 #### 2025. március 31.
 
 - #### Angular
   - **Újdonság:** Az új felületen mostantól nem dob ki a rendszer 5-10 perc után. 🎉
   - **Javítva:** NPU nem töltött be, ha a kezdő URL nem tartalmazta a jelenlegi oldalt. (Pl. https://url/hallgato nem töltötte be az NPU-t)
+
 #### 2025. március 27.
 
 - #### Angular
