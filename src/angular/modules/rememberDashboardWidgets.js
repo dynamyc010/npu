@@ -10,8 +10,8 @@ function isOnDashboard() {
 }
 
 async function getWidgets() {
-  return new Promise((resolve) => {
-    function checkWidgets() {
+  return new Promise((resolve, reject) => {
+    function checkWidgets(attempts = 0) {
       // Root elements of Upcoming events, Exams, Messages...
       const widgetRoots = $(".widget");
 
@@ -23,7 +23,11 @@ async function getWidgets() {
 
       // In case the widgets were not loaded yet, try again later
       if (widgets.length === 0) {
-        setTimeout(checkWidgets, 100);
+        const maxAttempts = 100;
+        if (attempts === maxAttempts) {
+          reject(new Error("[rememberDashboardWidgets] failed to find widgets"));
+        }
+        setTimeout(() => checkWidgets(attempts + 1), 50);
         return
       }
 
