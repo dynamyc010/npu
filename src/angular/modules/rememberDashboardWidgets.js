@@ -4,12 +4,18 @@ const $ = window.jQuery;
 const utils = require("../utils");
 const storage = require("../../shared/storage");
 
+let cachedWidgets = null;
+
 function isOnDashboard() {
   const uri = utils.getCurrentPage().pathname.split("/");
   return uri[uri.length - 1] === "dashboard";
 }
 
 async function getWidgets() {
+  if (cachedWidgets) {
+    return cachedWidgets;
+  }
+
   return new Promise((resolve, reject) => {
     function checkWidgets(attempts = 0) {
       // Root elements of Upcoming events, Exams, Messages...
@@ -32,6 +38,7 @@ async function getWidgets() {
         return;
       }
 
+      cachedWidgets = widgets;
       resolve(widgets);
     }
 
@@ -84,6 +91,7 @@ async function init() {
 async function destroy() {
   const widgets = await getWidgets();
   widgets.off("click", saveOpenWidgets);
+  cachedWidgets = null;
 }
 
 module.exports = {
