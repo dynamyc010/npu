@@ -3,10 +3,12 @@ const { getCurrentPage, isNeptunPage } = require("./utils");
 const storage = require("../shared/storage");
 
 const modules = [
+  require("./modules/removeTodoBanner"),
+  require("./modules/catchNetworkRequests"),
+  require("./modules/infiniteSession"),
   require("./modules/autoLogin"),
   require("./modules/addVersion"),
-  require("./modules/removeTodoBanner"),
-  require("./modules/infiniteSession"),
+  require("./modules/todoOverride"),
 ];
 
 let loadedModules = [];
@@ -24,6 +26,8 @@ function init() {
 
   console.debug("[npu-init] started loading...");
 
+  earlyInitModules();
+
   const stage1 = setInterval(() => {
     if (isLoadingShown() || isFooterShown()) {
       clearInterval(stage1);
@@ -38,6 +42,19 @@ function init() {
       }, 300);
     }
   }, 300);
+}
+
+async function earlyInitModules() {
+  modules
+    .filter(m => m.isEarlyInit && m.shouldActivate())
+    .forEach(m => {
+      // console.debug("[module-loader]", m.identifier, m.shouldActivate());
+      if (isNeptunPage() || m.runOutsideNeptun) {
+        console.debug("[module-loader] loading", m.identifier);
+        m.initialize();
+        loadedModules[loadedModules.length] = m;
+      }
+    });
 }
 
 async function continueInit() {

@@ -1,13 +1,47 @@
 const $ = window.jQuery;
 const supportedLanguages = ["en", "hu", "de"];
 const storage = require("../shared/storage");
-let currentLanguage = undefined;
-let langStrings = undefined;
+
+const apiToCatch = [];
+
+/**
+ *
+ * @param {String} url - The API URL to register
+ * @param {Function} func - The function to register
+ * @returns {Boolean} If the operation succeeded
+ */
+function registerApiToCatch(url, func) {
+  apiToCatch[apiToCatch.length] = { url: url, func: func };
+  return true;
+}
+
+/**
+ *
+ * @param {String} url - The API URL to unregister
+ * @param {Function} func - The function to unregister
+ * @returns {Boolean} If the API was found
+ */
+function unregisterApiFromCatch(url, func) {
+  if (apiToCatch.some(api => api.url === url && api.func === func)) {
+    apiToCatch.splice(apiToCatch.indexOf(api => api.url === url && api.func === func));
+    return true;
+  }
+  return false;
+}
+
+function getApisToCatch() {
+  return apiToCatch;
+}
 
 // Fallback to HU lang
 const fallback = require("./langs/hu.json");
+let currentLanguage = undefined;
+let langStrings = undefined;
 
 // Verify that we are indeed on a Neptun page
+/**
+ * @returns {Boolean} Whether or not we're on a Neptun page
+ */
 function isNeptunPage() {
   return document.title.toLowerCase().indexOf("neptun web") !== -1;
 }
@@ -21,10 +55,29 @@ function getRefreshToken() {
   return unsafeWindow.sessionStorage.refresh_token;
 }
 
-function sendApiRequest(url) {
+/**
+ * @summary Makes an API request to the Neptun API
+ *
+ * @param {URL} url - The URL of the API you wish to target
+ * @param {boolean} [authenticated=True] - Whether or not the request should be authenticated
+ * @returns {JSON} The response of the JSON
+ *
+ * @throws If the request failed, and we couldn't reauthenticate.
+ *
+ * @example
+ * - Authenticated
+ * const res = sendApiRequest("api/Dashboard/GetNumberOfTasksByType");
+ * console.log(res.data);
+ *
+ * - Unauthenticated
+ * const res = sendApiRequest("api/Login/GetInstituteName?lcid=1038", false);
+ * console.log(res.data)
+ *
+ */
+function sendApiRequest(url, authenticated = true) {
   const res = $.ajax(url, {
     headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
+      Authorization: authenticated ? `Bearer ${getAccessToken()}` : null,
     },
     async: false,
   });
@@ -34,10 +87,24 @@ function sendApiRequest(url) {
     case 403:
     case 401:
       // unauthorized
-      break;
+      console.error("[sendApiRequest] got unauthorized for request:", res);
+      if (authenticated && refreshToken()) {
+        console.debug("[sendApiRequest] trying again with token refreshed");
+        return sendApiRequest(url, authenticated);
+      }
+      throw new Error({ failed: true, error: res.responseJSON.message });
+    default:
+      // Something went wrong... Let's just bail.
+      console.error("[sendApiRequest] request failed with unknown reason:", res);
+      throw new Error({ failed: true, error: res.responseJSON.message });
   }
 }
 
+/**
+ * @summary Refreshes the Token for the current session.
+ *
+ * @returns {Boolean} Whether or not the operation was successful.
+ */
 function refreshToken() {
   const res = $.ajax("api/Account/GetNewTokens", {
     headers: {
@@ -57,19 +124,17 @@ function refreshToken() {
 
       unsafeWindow.sessionStorage.access_token = tokens.accessToken;
       unsafeWindow.sessionStorage.refresh_token = tokens.refreshToken;
-      return;
+      return true;
     }
     case 403:
     case 401:
-      console.error(`[refreshToken] failed token refresh`, res);
-      refreshTokenWithAuthenticate();
-      return;
+    default:
+      console.error(`[refreshToken] failed token refresh:`, res);
+      return refreshTokenWithAuthenticate();
   }
 }
 
 function refreshTokenWithAuthenticate() {
-  if (isLoggedIn()) return;
-
   const res = $.ajax("api/Account/Authenticate", {
     method: "POST",
     contentType: "application/json; charset=utf-8",
@@ -91,15 +156,21 @@ function refreshTokenWithAuthenticate() {
 
       unsafeWindow.sessionStorage.access_token = tokens.accessToken;
       unsafeWindow.sessionStorage.refresh_token = tokens.refreshToken;
-      return;
+      return true;
     }
     case 403:
     case 401:
-      console.error(`[refreshTokenWithAuthenticate] failed token refresh with auth`, res);
-      return;
+    default:
+      console.error(`[refreshTokenWithAuthenticate] failed token refresh with auth:`, res);
+      return false;
   }
 }
 
+/**
+ * @summary Finds and returns the current site language.
+ *
+ * @returns {String} The current language.
+ */
 function getCurrentLanguage() {
   if (currentLanguage) return currentLanguage;
   const lang = $(".footer__language span.text-uppercase").text().toLowerCase();
@@ -107,6 +178,13 @@ function getCurrentLanguage() {
   if (supportedLanguages.indexOf(lang) === -1) return "hu";
   return lang;
 }
+
+/**
+ * @summary Finds a localized string from the NPU language files
+ *
+ * @param  {...any} args The identifier for the string
+ * @returns {String} The localized string
+ */
 
 function getLocalizedString(...args) {
   let ids;
@@ -129,6 +207,10 @@ function getLocalizedString(...args) {
 }
 
 // returns the current URL of the page we're on (as a URL object)
+/**
+ *
+ * @returns {URL} The current web URL without any parameters
+ */
 function getCurrentPage() {
   const url = new URL(location.href);
   url.search = "";
@@ -136,24 +218,38 @@ function getCurrentPage() {
   return url;
 }
 
-// Returns whether we are on the login page
+/**
+ *
+ * @returns {Boolean} Whether or not we're currently on the Login Screen.
+ */
 function isLoginPage() {
   return $("div.login").length > 0;
 }
 
-// Returns whether we are authenticated
+/**
+ *
+ * @returns {Boolean} Whether or not we have a session right now
+ */
 function isLoggedIn() {
   return !!getNeptunCode();
 }
 
-// Parses and returns the Neptun code of the current user
+/**
+ * @summary Parses and returns the Neptun code of the current user
+ *
+ * @returns {String} The Neptun Code for the current user
+ */
 function getNeptunCode() {
   if ($(".user-menu__code").size() > 0) {
     return $(".user-menu__code").text().split("  ").reverse()[0].substring(1, 7);
   }
 }
 
-// Parses and returns the first-level domain of the site
+/**
+ * @summary Parses and returns the first-level domain of the site
+ *
+ * @returns {String} The first-level domain of the current site
+ */
 function getDomain() {
   const host = location.host.split(".");
   const tlds = "at co com edu eu gov hu hr info int mil net org ro rs sk si ua uk".split(" ");
@@ -166,7 +262,11 @@ function getDomain() {
   }
 }
 
-// Parses and returns the sanitized name of the current training
+/**
+ * @summary Parses and returns the sanitized name of the current training
+ *
+ * @returns {String} Name of Current Training
+ */
 function getTraining() {
   if ($(".user-menu__training").size() > 0) {
     return $(".user-menu__training").text().split("  ")[0].substr(1);
@@ -210,7 +310,16 @@ function getTraining() {
 //   document.body.removeChild(script);
 // }
 
-// // Reads the value at the provided path in a deeply nested object
+//
+
+/**
+ * @summary Reads the value at the provided path in a deeply nested object
+ *
+ * @param {*} o - Original
+ * @param {*} s -
+ *
+ * @returns
+ */
 function deepGetProp(o, s) {
   let c = o;
   while (s.length) {
@@ -317,4 +426,7 @@ module.exports = {
   injectCss,
   isPassingGrade,
   isFailingGrade,
+  getApisToCatch,
+  registerApiToCatch,
+  unregisterApiFromCatch,
 };

@@ -33,6 +33,12 @@ function removeBannerFromTop() {
   }
 }
 
+// function voidRequestFormNumber(response, isResponse){
+//   if(!isResponse) return response;
+//   response.numberOfRequestForms = 0;
+//   return response;
+// }
+
 function init() {
   if (!shouldRemoveBanner()) return;
 

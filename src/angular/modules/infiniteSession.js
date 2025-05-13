@@ -1,5 +1,5 @@
 const identifier = ["angular", "infiniteSession"];
-const utils = require("../utils");
+const { isLoggedIn, refreshToken } = require("../utils");
 
 let sessionRefreshTimeout;
 const timeout = 280;
@@ -8,7 +8,11 @@ function keepAlive() {
   const timer = timeout * 1000 - 40000 + Math.floor(Math.random() * 40000);
   console.debug("[infiniteSession] next token refresh in", timer / 1000, "s");
   sessionRefreshTimeout = setTimeout(() => {
-    utils.refreshToken();
+    if(!refreshToken()) {
+      // Bail completely if refreshing token failed. 
+      // (We're probably way past due already, and it's just the easiest way of handling it.)
+      location.reload();
+    }
     document.querySelector("body").dispatchEvent(new Event("mousedown", { bubbles: true }));
     document.querySelector("body").dispatchEvent(new Event("mouseup", { bubbles: true }));
     keepAlive();
@@ -42,8 +46,8 @@ function init() {
 
 module.exports = {
   identifier: identifier.join("."),
-  shouldActivate: () => utils.isLoggedIn(),
-  shouldNotDestroy: () => utils.isLoggedIn(),
+  shouldActivate: () => isLoggedIn(),
+  shouldNotDestroy: () => isLoggedIn(),
   initialize: () => {
     init();
   },
